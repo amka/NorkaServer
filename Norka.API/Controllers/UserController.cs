@@ -12,7 +12,7 @@ using Norka.API.Services;
 namespace Norka.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UserController(NorkaDbContext db, UserManager<ApplicationUser> userManager, TokenService tokenService) : Controller
 {
     [HttpPost("register")]

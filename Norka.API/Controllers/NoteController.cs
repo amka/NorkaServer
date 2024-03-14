@@ -10,7 +10,7 @@ using Norka.API.Models.Request;
 namespace Norka.API.Controllers;
 
 [Authorize]
-[Route("[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class NoteController(NorkaDbContext db, UserManager<ApplicationUser> userManager) : Controller
 {
