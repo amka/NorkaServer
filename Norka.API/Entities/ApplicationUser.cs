@@ -3,7 +3,8 @@ using Norka.API.Models;
 
 namespace Norka.API.Entities;
 
-public class ApplicationUser: IdentityUser
+public class ApplicationUser : IdentityUser
 {
     public IEnumerable<Note> Notes { get; set; }
+    public IEnumerable<ApiToken> ApiTokens { get; set; }
 }

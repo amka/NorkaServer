@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Norka.API.Data;
 
@@ -10,9 +11,11 @@ using Norka.API.Data;
 namespace Norka.API.Migrations
 {
     [DbContext(typeof(NorkaDbContext))]
-    partial class UptimedDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240314070944_AddApiToken")]
+    partial class AddApiToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");

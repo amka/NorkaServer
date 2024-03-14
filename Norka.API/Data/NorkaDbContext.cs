@@ -17,4 +17,5 @@ public class NorkaDbContext : IdentityDbContext<ApplicationUser, UptimedRole, st
 
     public DbSet<Note> Notes { get; set; }
 
+    public DbSet<ApiToken> ApiTokens { get; set; }
 }
