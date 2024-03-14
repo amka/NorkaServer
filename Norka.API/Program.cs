@@ -38,6 +38,7 @@ public class Program
 
         // Register our TokenService dependency
         builder.Services.AddScoped<TokenService, TokenService>();
+        builder.Services.AddScoped<ApiTokenService, ApiTokenService>();
 
         // Specify identity requirements
         // Must be added before .AddAuthentication otherwise a 404 is thrown on authorized endpoints
