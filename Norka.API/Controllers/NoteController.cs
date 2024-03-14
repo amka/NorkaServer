@@ -14,16 +14,24 @@ namespace Norka.API.Controllers;
 [ApiController]
 public class NoteController(NorkaDbContext db, UserManager<ApplicationUser> userManager) : Controller
 {
-    // GET
+    /// <summary>
+    /// Get all notes that you created.
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
-    public async Task<List<Note>> GetTodosAsync()
+    public async Task<List<Note>> GetNotesAsync()
     {
         var userId = userManager.GetUserId(HttpContext.User);
         return await db.Notes.Where(t => t.AuthorId == userId).ToListAsync();
     }
 
+    /// <summary>
+    /// Create new note and return it. Current user will be the author.
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> CreateTodoAsync(CreateNoteRequest request)
+    public async Task<IActionResult> CreateNoteAsync(CreateNoteRequest request)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -34,25 +42,60 @@ public class NoteController(NorkaDbContext db, UserManager<ApplicationUser> user
             AuthorId = userId!,
             Title = request.Title,
             Content = request.Content,
+            IsArchived = request.IsArchived,
+            IsDeleted = request.IsDeleted,
+            IsEncrypted = request.IsEncrypted,
+            CreatedAt = DateTime.Now,
+            LastModifiedAt = DateTime.Now
         };
 
         db.Notes.Add(noteItem);
         await db.SaveChangesAsync();
 
-        return CreatedAtAction("CreateTodo", new { id = noteItem.Id }, noteItem);
+        return CreatedAtAction("CreateNote", new { id = noteItem.Id }, noteItem);
     }
 
+    /// <summary>
+    /// Get note by id or return 404.
+    /// Note that you can only get notes that you created.
+    /// </summary>
+    /// <param name="id">Note id</param>
+    /// <returns>Note</returns>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetTodoAsync(string id)
+    public async Task<IActionResult> GetNoteAsync(string id)
     {
-        var note = await db.Notes.Where(t => t.Id == id).FirstOrDefaultAsync();
+        var userId = userManager.GetUserId(HttpContext.User);
+        var note = await db.Notes
+            .Where(t => t.Id == id && t.AuthorId == userId)
+            .FirstOrDefaultAsync();
         if (note == null) return NotFound();
 
         return Ok(note);
     }
 
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> UpdateNoteAsync(string id, UpdateNoteRequest request)
+    {
+        var userId = userManager.GetUserId(HttpContext.User);
+        var note = await db.Notes
+            .Where(t => t.Id == id && t.AuthorId == userId)
+            .FirstOrDefaultAsync();
+        if (note == null) return NotFound();
+
+        // Update presented fields only
+        note.Title = request.Title ?? note.Title;
+        note.Content = request.Content ?? note.Content;
+        note.IsArchived = request.IsArchived ?? note.IsArchived;
+        note.IsDeleted = request.IsDeleted ?? note.IsDeleted;
+        note.IsEncrypted = request.IsEncrypted ?? note.IsEncrypted;
+        note.LastModifiedAt = DateTime.Now;
+        await db.SaveChangesAsync();
+
+        return Ok(note);
+    }
+
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteTodoAsync(string id)
+    public async Task<IActionResult> DeleteNoteAsync(string id)
     {
         var userId = userManager.GetUserId(HttpContext.User);
         var note = await db.Notes.Where(t =>
