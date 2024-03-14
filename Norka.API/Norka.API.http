@@ -1,0 +1,58 @@
+@Uptimed_HostAddress = http://localhost:5049
+
+### Register
+
+POST {{Uptimed_HostAddress}}/user/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "meamka@ya.ru",
+  "password": "meamka1"
+}
+
+### Login
+
+POST {{Uptimed_HostAddress}}/user/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "meamka@ya.ru",
+  "password": "meamka1"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
+### Get All Notes
+
+GET {{Uptimed_HostAddress}}/Note
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Create Note
+
+POST  {{Uptimed_HostAddress}}/Note
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "title": "New Note {{$random.alphabetic(10)}}",
+  "content": "# What a glorious morning!\n\nLet's start coding"
+}
+
+> {%
+    client.global.set("last_note_id", response.body.id);
+%}
+
+
+### Get Note by Id
+
+GET {{Uptimed_HostAddress}}/Note/{{last_note_id}}
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+
