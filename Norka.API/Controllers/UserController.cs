@@ -28,7 +28,7 @@ public class UserController(NorkaDbContext db, UserManager<ApplicationUser> user
             },
             request.Password);
 
-        if (!result.Succeeded)
+        if (result.Succeeded)
         {
             request.Password = "";
             return CreatedAtAction(nameof(CreateUser), new { email = request.Email }, request);
