@@ -1,4 +1,4 @@
-using Norka.API.Models;
+using Norka.API.Entities;
 
 namespace Norka.API.Services;
 
@@ -88,7 +88,7 @@ public class TokenService(ILogger<TokenService> logger, IConfiguration configura
             SecurityAlgorithms.HmacSha256
         );
     }
-    
+
     public ClaimsPrincipal? GetPrincipalFromExpiredToken(string? token)
     {
         var tokenValidationParameters = new TokenValidationParameters
@@ -96,16 +96,19 @@ public class TokenService(ILogger<TokenService> logger, IConfiguration configura
             ValidateAudience = false,
             ValidateIssuer = false,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configurationManager.GetValue<string>("Jwt:Key")?? "TheKeyOfTheUptimed")),
+            IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configurationManager.GetValue<string>("Jwt:Key") ??
+                                                                "TheKeyOfTheUptimed")),
             ValidateLifetime = true
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var securityToken);
-        if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        if (securityToken is not JwtSecurityToken jwtSecurityToken ||
+            !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+                StringComparison.InvariantCultureIgnoreCase))
             throw new SecurityTokenException("Invalid token");
 
         return principal;
-
     }
 }

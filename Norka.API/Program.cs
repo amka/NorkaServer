@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Norka.API.Data;
-using Norka.API.Models;
+using Norka.API.Entities;
 using Norka.API.Services;
 using Norka.API.Extensions;
 

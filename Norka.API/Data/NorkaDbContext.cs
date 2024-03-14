@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Norka.API.Models;
+using Norka.API.Entities;
 
 namespace Norka.API.Data;
 
