@@ -1,4 +1,4 @@
-@Uptimed_HostAddress = http://localhost:5049
+@Uptimed_HostAddress = http://localhost:5049/api
 
 ### Register
 
