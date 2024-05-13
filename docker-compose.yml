@@ -1,0 +1,19 @@
+﻿services:
+  norka.web:
+    depends_on:
+      - db
+    image: norka.web
+    build:
+      context: .
+      dockerfile: Norka.Web/Dockerfile
+
+  db:
+    image: mariadb:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: <PASSWORD>
+    volumes:
+      - ./db:/var/lib/mysql:Z # Z means "bind-mount"
+    
