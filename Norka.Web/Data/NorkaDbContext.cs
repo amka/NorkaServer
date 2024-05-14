@@ -11,9 +11,10 @@ public class NorkaDbContext(DbContextOptions<NorkaDbContext> options) : Identity
         modelBuilder
             .UseCollation("utf8mb4_general_ci")
             .HasCharSet("utf8mb4");
-        
+
         base.OnModelCreating(modelBuilder);
     }
 
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public DbSet<Note> Notes { get; set; }
 }
