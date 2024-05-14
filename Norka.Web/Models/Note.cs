@@ -9,6 +9,7 @@ public class Note
 
     // TODO: Replace with ApplicationUserId
     [MaxLength(32)] public required string UserId { get; set; }
+    [MaxLength(32)] public required string ApplicationUserId { get; set; }
 
     [MaxLength(500)] public string? Title { get; set; }
     public required string Content { get; set; }
