@@ -8,12 +8,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-var connectionString = builder.Configuration["ConnectionStrings:MainDb"];
+var connectionString = builder.Configuration.GetConnectionString("MainDb") ??
+                       throw new InvalidOperationException("Connection string 'MainDb' not found.");
 
 builder.Services.AddDbContext<NorkaDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     {
         options.SignIn.RequireConfirmedAccount = true;
         options.User.RequireUniqueEmail = true;
