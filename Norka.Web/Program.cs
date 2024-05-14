@@ -26,12 +26,17 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     })
     .AddEntityFrameworkStores<NorkaDbContext>();
 
-builder.Services.AddAuthentication()
-    .AddGoogle(options =>
+var authBuilder = builder.Services.AddAuthentication();
+
+// Add Google OAuth2 authentication if configured.
+if (builder.Configuration.GetSection("Authentication:Google").Exists())
+{
+    authBuilder.AddGoogle(options =>
     {
-        options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
     });
+}
 
 builder.Services.AddTransient<IEncryptionService, EncryptionService>();
 builder.Services.AddTransient<INoteService, NoteService>();

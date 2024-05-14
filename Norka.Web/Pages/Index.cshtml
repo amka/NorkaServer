@@ -1,10 +1,41 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Notes";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-lg">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col">
+            <a class="flex-shrink-1 btn btn-primary" asp-page="Create">
+                <i class="bi bi-plus-lg"></i>
+                Create
+            </a>
+        </div>
+    </div>
+
+    <div class="row my-4">
+        <div class="col-md-12">
+            @if (!Model.Notes.Any())
+            {
+                <p>No notes found.</p>
+            }
+            else
+            {
+                @foreach (var note in Model.Notes)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@note.Title</h5>
+                            <p class="card-text">@note.Content</p>
+                            <a asp-page="./Edit" asp-route-id="@note.Id" class="btn btn-primary">Edit</a>
+                            <a asp-page="./Delete" asp-route-id="@note.Id" class="btn btn-danger">Delete</a>
+
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
 </div>

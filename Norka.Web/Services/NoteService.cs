@@ -4,7 +4,7 @@ using Norka.Web.Models;
 
 namespace Norka.Web.Services;
 
-public class NoteService(NorkaDbContext db, ILogger<NoteService> logger, EncryptionService encryptionService)
+public class NoteService(NorkaDbContext db, ILogger<NoteService> logger, IEncryptionService encryptionService)
     : INoteService
 {
     public async Task<IEnumerable<Note>> GetNotesAsync(string userId, int? page, int? pageSize)
