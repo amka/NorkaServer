@@ -1,22 +1,29 @@
-html {
-  font-size: 14px;
-}
-
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+:root {
+    --bs-body-bg: #f0eeeb;
+    --bs-primary-text: #13181b;
+    --bs-backdrop-bg: #f0eeeb;
+    --bs-primary: #00396b;
+    --bs-secondary: #ffd599;
+    --bs-tertiary: #ea8339;
+    --bs-nav-link-color: #00396b;
+    --bs-nav-pills-link-active-bg: #00396b;
 }
