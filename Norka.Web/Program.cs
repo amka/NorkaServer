@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Norka.Web.Data;
 using Norka.Web.Models;
+using Norka.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,9 @@ builder.Services.AddAuthentication()
         options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
         options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
     });
+
+builder.Services.AddTransient<IEncryptionService, EncryptionService>();
+builder.Services.AddTransient<INoteService, NoteService>();
 
 var app = builder.Build();
 
